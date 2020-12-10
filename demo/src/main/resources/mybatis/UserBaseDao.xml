@@ -178,7 +178,7 @@
 		delete from user_base where id = #{value}
 	</delete>
 
-	<select id="queryById">
+	<select id="queryById" resultType="com.ibn.demo.entity.UserBaseDO">
 		select
 		<include refid="baseColumn"/>
 		from user_base where id = #{id}
@@ -272,7 +272,7 @@
 		</where>
 	</sql>
 
-	<select id="queryList">
+	<select id="queryList" resultType="com.ibn.demo.entity.UserBaseDO">
 		select
 		<include refid="baseColumn"/>
 		from user_base <include refid="queryColumn"/>
