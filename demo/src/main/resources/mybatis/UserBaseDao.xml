@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ibn.demo.dao.UserBaseDao">
+	<sql id="UserBaseDO_Columns">
+		<trim suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="nickName != null">nick_name,</if>
+			<if test="realName != null">real_name,</if>
+			<if test="pic != null">pic,</if>
+			<if test="sex != null">sex,</if>
+			<if test="username != null">username,</if>
+			<if test="password != null">password,</if>
+			<if test="phone != null">phone,</if>
+			<if test="stateCode != null">state_code,</if>
+			<if test="mobile != null">mobile,</if>
+			<if test="email != null">email,</if>
+			<if test="type != null">type,</if>
+			<if test="isMain != null">is_main,</if>
+			<if test="accountNo != null">account_no,</if>
+			<if test="mainUserId != null">main_user_id,</if>
+			<if test="disabled != null">disabled,</if>
+			<if test="loginTime != null">login_time,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="operatorId != null">operator_id,</if>
+			<if test="operatorName != null">operator_name,</if>
+			<if test="lastAccess != null">last_access,</if>
+			<if test="version != null">version,</if>
+			<if test="memberId != null">member_id,</if>
+			<if test="regType != null">reg_type,</if>
+			<if test="regSource != null">reg_source,</if>
+			<if test="regTime != null">reg_time,</if>
+			<if test="contact != null">contact,</if>
+		</trim>
+	</sql>
+
+	<sql id="UserBaseDO_Values">
+		<trim suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="nickName != null">#{nickName},</if>
+			<if test="realName != null">#{realName},</if>
+			<if test="pic != null">#{pic},</if>
+			<if test="sex != null">#{sex},</if>
+			<if test="username != null">#{username},</if>
+			<if test="password != null">#{password},</if>
+			<if test="phone != null">#{phone},</if>
+			<if test="stateCode != null">#{stateCode},</if>
+			<if test="mobile != null">#{mobile},</if>
+			<if test="email != null">#{email},</if>
+			<if test="type != null">#{type},</if>
+			<if test="isMain != null">#{isMain},</if>
+			<if test="accountNo != null">#{accountNo},</if>
+			<if test="mainUserId != null">#{mainUserId},</if>
+			<if test="disabled != null">#{disabled},</if>
+			<if test="loginTime != null">#{loginTime},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="operatorId != null">#{operatorId},</if>
+			<if test="operatorName != null">#{operatorName},</if>
+			<if test="lastAccess != null">#{lastAccess},</if>
+			<if test="version != null">#{version},</if>
+			<if test="memberId != null">#{memberId},</if>
+			<if test="regType != null">#{regType},</if>
+			<if test="regSource != null">#{regSource},</if>
+			<if test="regTime != null">#{regTime},</if>
+			<if test="contact != null">#{contact},</if>
+		</trim>
+	</sql>
+
+	<sql id="baseColumn">
+		`id`, `nick_name`, `real_name`, `pic`, `sex`, `username`, `password`, `phone`, `state_code`, `mobile`, `email`, `type`, `is_main`, `account_no`, `main_user_id`, `disabled`, `login_time`, `create_time`, `operator_id`, `operator_name`, `last_access`, `version`, `contact`,
+		<!-- 公共资源优化冗余字段 四个member_id,reg_type,reg_source,reg_time字段 TuJun-->
+		member_id,reg_type,reg_source,last_call_time, reg_time
+
+	</sql>
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+		insert into user_base (<include refid="UserBaseDO_Columns"/>)
+		values(<include refid="UserBaseDO_Values"/>)
+	</insert>
+
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into user_base
+		(
+		`id`,
+		`nick_name`,
+		`real_name`,
+		`pic`,
+		`sex`,
+		`username`,
+		`password`,
+		`phone`,
+		`state_code`,
+		`mobile`,
+		`email`,
+		`type`,
+		`is_main`,
+		`account_no`,
+		`main_user_id`,
+		`disabled`,
+		`login_time`,
+		`create_time`,
+		`operator_id`,
+		`operator_name`,
+		`last_access`,
+		`version`,
+		member_id,
+		reg_type,
+		reg_source,
+		reg_time,
+		last_call_time)
+		values
+		<foreach collection="list" index="index" item="userBase" separator=",">
+			(
+			#{userBase.id},
+			#{userBase.nickName},
+			#{userBase.realName},
+			#{userBase.pic},
+			#{userBase.sex},
+			#{userBase.username},
+			#{userBase.password},
+			#{userBase.phone},
+			#{userBase.stateCode},
+			#{userBase.mobile},
+			#{userBase.email},
+			#{userBase.type},
+			#{userBase.isMain},
+			#{userBase.accountNo},
+			#{userBase.mainUserId},
+			#{userBase.disabled},
+			#{userBase.loginTime},
+			#{userBase.createTime},
+			#{userBase.operatorId},
+			#{userBase.operatorName},
+			#{userBase.lastAccess},
+			#{userBase.version},
+			#{userBase.memberId},
+			#{userBase.regType},
+			#{userBase.regSource},
+			#{userBase.regTime},
+			)
+		</foreach>
+	</insert>
+	<update id="updateById">
+		update user_base
+		<set>
+			<if test="nickName != null">`nick_name` = #{nickName},</if>
+			<if test="realName != null">`real_name` = #{realName},</if>
+			<if test="pic != null">`pic` = #{pic},</if>
+			<if test="sex != null">`sex` = #{sex},</if>
+			<if test="username != null">`username` = #{username},</if>
+			<if test="password != null">`password` = #{password},</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="stateCode != null">`state_code` = #{stateCode},</if>
+			<if test="mobile != null">`mobile` = #{mobile},</if>
+			<if test="email != null">`email` = #{email},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="isMain != null">`is_main` = #{isMain},</if>
+			<if test="accountNo != null">`account_no` = #{accountNo},</if>
+			<if test="mainUserId != null">`main_user_id` = #{mainUserId},</if>
+			<if test="disabled != null">`disabled` = #{disabled},</if>
+			<if test="loginTime != null">`login_time` = #{loginTime},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="operatorId != null">`operator_id` = #{operatorId},</if>
+			<if test="operatorName != null">`operator_name` = #{operatorName},</if>
+			<if test="lastAccess != null">`last_access` = #{lastAccess},</if>
+			<if test="version != null">`version` = #{version},</if>
+			<if test="memberId != null">member_id = #{memberId},</if>
+			<if test="regType != null">reg_type = #{regType},</if>
+			<if test="regSource != null">reg_source = #{regSource},</if>
+			<if test="regTime != null">reg_time= #{regTime},</if>
+			<if test="contact != null">contact= #{contact},</if>
+			`last_access` = CONCAT(UNIX_TIMESTAMP(NOW()), RIGHT(NOW(3), 3))
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from user_base where id = #{value}
+	</delete>
+
+	<select id="queryById">
+		select
+		<include refid="baseColumn"/>
+		from user_base where id = #{id}
+	</select>
+
+	<sql id="queryColumn">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="nickName != null and nickName	!=''">
+				and nick_name like '%${nick_name}%'
+			</if>
+			<if test="realName != null and realName	!=''">
+				and real_name like '%${realName}%'
+			</if>
+			<if test="username != null and username	!=''">
+				and username = #{username}
+			</if>
+			<if test="phone != null and phone !=''">
+				and phone = #{phone}
+			</if>
+			<if test="mainUserId != null">
+				and main_user_id = #{mainUserId}
+			</if>
+			<if test="pic != null and pic !=''">
+				and pic = #{pic}
+			</if>
+			<if test="sex != null">
+				and sex = #{sex}
+			</if>
+			<if test="password != null and password !=''">
+				and password = #{password}
+			</if>
+			<if test="stateCode != null and state_code !=''">
+				and state_code = #{stateCode}
+			</if>
+			<if test="mobile != null and mobile !=''">
+				and mobile = #{mobile}
+			</if>
+			<if test="email != null and email !=''">
+				and email = #{email}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="isMain != null">
+				and is_main = #{isMain}
+			</if>
+			<if test="accountNo != null">
+				and account_no = #{accountNo}
+			</if>
+			<if test="mainUserId != null">
+				and main_user_id = #{mainUserId}
+			</if>
+			<if test="disabled != null">
+				and disabled = #{disabled}
+			</if>
+			<if test="loginTime != null">
+				and login_time = #{loginTime}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime}
+			</if>
+			<if test="operatorId != null">
+				and operator_id = #{operatorId}
+			</if>
+			<if test="operatorName != null and operatorName !=''">
+				and operator_name = #{operatorName}
+			</if>
+			<if test="lastAccess != null">
+				and last_access = #{lastAccess}
+			</if>
+			<if test="version != null">
+				and version = #{version}
+			</if>
+
+			<!-- 公共资源优化冗余字段 四个member_id,reg_type,reg_source,reg_time字段 TuJun-->
+			<if test="memberId != null">
+				and member_id = #{memberId}
+			</if>
+			<if test="regType != null">
+				and reg_type = #{regType}
+			</if>
+			<if test="regSource != null">
+				and reg_source = #{regSource}
+			</if>
+			<if test="regTime != null">
+				and reg_time = #{regTime}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryList">
+		select
+		<include refid="baseColumn"/>
+		from user_base <include refid="queryColumn"/>
+	</select>
+</mapper>
